@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/public/css/sidenav.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="height: 100vh;">
+    <div class="wrapper">
+        <%- include('./partials/sidenav.ejs'); %>
+        <div class="main_content">
+            <div class="info">
+                 <%- include('./partials/header.ejs'); %>
+                <h2>Dashboard</h2>
+                <div id="contentWrapper">
+                    <div class="dashboard-form-container">
+                        <!-- <div class="usersDiv"> -->
+                            <!-- <div> -->
+                                <% for (let i=allProducts.length - 1; i >=0; i--) { %>
+                                    <% if (allProducts[i].bidActive == true) { %>
+                                        <div class="gallery">
+                                            <h3><%= allProducts[i].productname %></h3>
+                                            <div class="item">
+                                            <!-- <div> -->
+                                                <div class="dashboard-product-container">
+                                                    <% if (allProducts[i].description.length > 25) { %>
+                                                        <div> <i class="fas fa-file"></i><strong>Description:</strong> <%= allProducts[i].description.substring(0,25) %> <strong>...</strong></div>
+                                                    <% } else { %>
+                                                        <div> <i class="fas fa-file"></i><strong>Description:</strong> <%= allProducts[i].description %></div>
+                                                    <% } %>
+                                                    <div><i class="fas fa-user"></i><strong>Product Added By:</strong> <%= allProducts[i].addedby %> </div>
+                                                    <div><i class="fas fa-calendar"></i><strong>Product Added On:</strong> <%= allProducts[i].addedon.toISOString().substr(0,10) %> </div>
+                                                    <div><i class="fas fa-hourglass-end"></i><strong>Bid Endtime:</strong> <%= allProducts[i].endtime.toISOString().substr(0,10) %> </div>
+                                                    <div><i class="fas fa-wallet"></i><strong>Bid Started at:</strong> Rs. <%= allProducts[i].minimumbid %> </div>
+                                                    <div><i class="fas fa-chart-line"></i><strong>Highest Bid yet:</strong> Rs. <%= allProducts[i].highestbid %> </div>
+                                                    <div><i class="fas fa-tag"></i><strong>Product Type:</strong> <%= allProducts[i].type %> </div>
+                                                    <div><i class="fas fa-tags"></i><strong>Product Tags: </strong><%= allProducts[i].tags.join(', ') %> </div>
+                                                </div>
+                                                <div class="dashboard-image-container">
+                                                    <div>
+                                                        <img src="<%= allProducts[i].optionImg[0] %>" class="renderOptionImg">
+                                                        <% if(allProducts[i].optionTitle[0] == '') { %>
+                                                            <span class="hide"> <%= allProducts[i].optionTitle[0] %> </span>
+                                                        <% } else { %>
+                                                            <span class="renderOptionTitle"> <%= allProducts[i].optionTitle[0] %></span>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href='/products/view/<%= allProducts[i]._id %>/<%= currentUser._id %>' class="buttonAnchor">View Details</a>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                            <!-- </div> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/js/sidenav.js"></script>
+</body>
+
+</html>

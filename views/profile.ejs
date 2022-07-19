@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/public/css/sidenav.css">
+    <link rel="stylesheet" href="/public/css/content.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body style="height: 100vh;">
+    <div class="wrapper">
+        <%- include('./partials/sidenav.ejs'); %>
+
+        <div class="main_content"> 
+            <div class="info">
+                <%- include('./partials/header.ejs'); %>
+                <h2><%= user.name %> - Profile</h2>
+                <div id="contentWrapper">
+                    <div class="form-container">
+                        <div class="usersDiv">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-user"></i>
+                                    Name - <%= user.name %>
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope"></i>
+                                    Email - <%= user.email %>
+                                </li>
+                                <li>
+                                    <i class="fas fa-hat-cowboy-side"></i>
+                                    Age - <%= user.age %>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="usersDiv">
+                            <strong>Products:</strong>
+                            <ul>
+                                <% for(let i=0; i < activeProducts.length; i++) { %>
+                                    <li>
+                                        <i class="fas fa-shopping-cart fa-2x"></i>
+                                        <h3><%= activeProducts[i].productname %> </h3><br>
+                                        <div><strong>Product Description:</strong> <%= activeProducts[i].description %> </div>
+                                        <div><strong>Product Added On:</strong> <%= activeProducts[i].addedon.toISOString().substr(0,10) %> </div>
+                                        <div><strong>Bid Endtime:</strong> <%= activeProducts[i].endtime.toISOString().substr(0,10) %> </div>
+                                        <div><strong>Bid Started at:</strong> Rs. <%= activeProducts[i].minimumbid %> </div>
+                                        <div><strong>Highest Bid yet:</strong> Rs. <%= activeProducts[i].highestbid %> </div>
+                                        <div><strong>Product Type:</strong> <%= activeProducts[i].type %> </div>
+                                        <div><strong>Product Tags: </strong><%= activeProducts[i].tags.join(', ') %> </div>
+                                        <a href='/products/view/<%= activeProducts[i]._id %>/<%= currentUser._id %>' class="buttonAnchor">View Details</a>
+                                    </li>
+                                <% } %>   
+                            </ul>
+                        </div>
+                        <div class="usersDiv">
+                            <strong>Old Products:</strong>(The bidding has ended)
+                            <ul>
+                                <% for(let i=0; i < inactiveProducts.length; i++) { %>
+                                    <li>
+                                        <i class="fas fa-shopping-cart fa-2x"></i>
+                                        <h3><%= inactiveProducts[i].productname %> </h3><br>
+                                        <a href='/products/view/<%= inactiveProducts[i]._id %>/<%= currentUser._id %>' class="buttonAnchor">View Details</a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        </div>
+    </div>
+    <script src="/public/js/sidenav.js"></script>
+</body>
+</html>

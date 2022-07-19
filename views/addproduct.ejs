@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Products</title>
+    <link rel="stylesheet" href="/public/css/sidenav.css">
+    <link rel="stylesheet" href="/public/css/content.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="height: 100vh;">
+    <div class="wrapper">
+        <%- include('./partials/sidenav.ejs'); %>
+
+            <div class="main_content">
+                <div class="info">
+                    <%- include('./partials/header.ejs'); %>
+                    <h2>Add your Product</h2>
+                    <form action="/products/add/<%= currentUser._id %>" method="POST">
+                        <div id="contentWrapper">
+                            <div class="form-container">
+                                <div class="textInputDiv">
+                                    <label for="productname"><strong>Product Name</strong></label>
+                                    <input type="text" id="productname" name="productname" placeholder="Product Name" required>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="description"><strong>Product Description</strong></label>
+                                    <textarea type="text" id="description" name="description"
+                                        placeholder="Product Description" rows="5" required></textarea>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="addedby"><strong>Product Added By (you)</strong></label>
+                                    <input type="text" id="addedby" name="addedby" value="<%= currentUser.name %>" class="disabled"
+                                        readonly>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="addedon"><strong>Product Added On</strong></label>
+                                    <input type="date" id="todayDate" name="addedon" class="disabled" readonly>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="endtime"><strong>Bid Endtime</strong></label>
+                                    <input type="date" id="endtime" name="endtime" required>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="minimumbid"><strong>Minimum Bid (in Rs.)</strong></label>
+                                    <input type="number" id="minimumbid" name="minimumbid" min="0" required>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="type"><strong>Product Type</strong></label>
+                                    <select name="type" id="type">
+                                        <option value="Ancient Art">Ancient Art</option>
+                                        <option value="Ancient Coins">Ancient Coins</option>
+                                        <option value="Ancient Fashion">Ancient Fashion</option>
+                                        <option value="Ancient Cars">Ancient Cars</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                                <div class="textInputDiv">
+                                    <label for="tags"><strong>Tags</strong> (seperate tags with commas)</label>
+                                    <input type="text" id="productname" name="tags" placeholder="coins, golds, silver...">
+                                </div>
+                            </div>
+                            <div class="form-container">
+                                <div class="textInputDiv">
+                                    <div class="textInputDiv">
+                                        <label for="noofoptions"><strong>No. of Product Images</strong></label>
+                                        <input type="number" id="noOfOptions" name="noofoptions" min="1" required>
+                                    </div>
+                                    <div class="usersDiv">
+                                        <strong>Note: </strong>Only First Image will be considered as the Display Image which is shown in public pages.
+                                        The Other Images will be shown in the product details when a users comes to bid your product. You can leave the
+                                        Image Title Box empty, if you don't want to display title as the caption of the images.
+                                        <ul id="optionDisplay">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button type="submit" id="submit">Add Product</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+    <script src="/public/js/product-imges.js"></script>
+    <script src="/public/js/render-date.js"></script>
+    <script src="/public/js/sidenav.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - <%= product.productname %></title>
+    <link rel="stylesheet" href="/public/css/sidenav.css">
+    <link rel="stylesheet" href="/public/css/content.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body style="height: 100%;">
+    <div class="wrapper">
+        <%- include('./partials/sidenav.ejs'); %>
+
+        <div class="main_content"> 
+            <div class="info">
+                <%- include('./partials/header.ejs'); %>
+                <h2><%= product.productname %></h2>
+                <div id="contentWrapper">
+                    <div class="form-container">
+                        <div class="textInputDiv">
+                            <label for="productname"><strong>Product Name</strong></label>
+                            <input type="text" id="productname" name="productname" value="<%= product.productname %>" class="disabled" readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="description"><strong>Product Description</strong></label>
+                            <textarea type="text" id="description" name="description" rows="5" class="disabled" readonly><%= product.description %></textarea>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="addedby"><strong>Product Added By</strong></label>
+                            <input type="text" id="addedby" name="addedby" value="<%= product.addedby %>" class="disabled"
+                                readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="minimumbid"><strong>Bid Started At (in Rs.)</strong></label>
+                            <input type="number" id="minimumbid" name="minimumbid" value="<%= product.minimumbid %>" class="disabled" readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label><strong>Highest Bid yet (in Rs.)</strong></label>
+                            <input type="number" value="<%= product.highestbid %>" class="disabled" readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="addedon"><strong>Product Added On</strong></label>
+                            <input type="date" id="todayDate" value="<%= product.addedon.toISOString().substr(0,10) %>" name="addedon" class="disabled" readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="endtime"><strong>Bid Endtime</strong></label>
+                            <input type="date" id="endtime" value="<%= product.endtime.toISOString().substr(0,10) %>" name="endtime" class="disabled" readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="type"><strong>Product Type</strong></label>
+                            <input type="text" id="type" name="type" value="<%= product.type %>" class="disabled"
+                            readonly>
+                        </div>
+                        <div class="textInputDiv">
+                            <label for="tags"><strong>Tags</strong> (seperate tags with commas)</label>
+                            <input type="text" id="tags" name="tags" value="<%= product.tags %>" class="disabled" readonly>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <div style="display:flex;">
+                            <div class="usersDiv" style="width: 50%; margin-right: 5px; overflow-y: auto; height: 400px;">
+                                <div class="textInputDiv">
+                                    <label for="noofoptions"><strong>No. of Product Images</strong></label>
+                                    <input type="number" id="noOfOptions" name="noofoptions" value="<%= product.optionImg.length %>" class="disabled" readonly>
+                                </div>
+                                <ul id="optionDisplay">
+                                    <% for (let i=0; i < product.optionImg.length; i++) { %>
+                                        <li>
+                                            <div>
+                                                <img src="<%= product.optionImg[i] %>" class="renderOptionImg">
+    
+                                                <% if(product.optionTitle[i] == '') { %>
+                                                    <span class="hide"> <%= product.optionTitle[i] %> </span>
+                                                <% } else { %>
+                                                    <span class="renderOptionTitle"> <%= product.optionTitle[i] %> </span>
+                                                <% } %>
+                                            </div>
+                                        </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <div class="usersDiv" style="width: 50%; overflow-y: auto; height: 400px;">
+                                <div class="textInputDiv">
+                                    <label for="comments"><strong>Add your comment</strong><i style="float: right;" class="fas fa-comment"></i></label>
+                                    <textarea type="text" id="comments" name="comments"
+                                        placeholder="Add your comment here..." rows="5" required style="margin-bottom: 0px;"></textarea>
+                                    <a href="#" class="buttonAnchor">Add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (product.bidActive == true) { %>
+                            <div class="usersDiv">
+                                <div class="textInputDiv">
+                                    <form action="/products/bid/<%= product._id %>/<%= currentUser._id %>" method="POST">
+                                        <label for="highestbid"><strong>Enter Your Bid (in Rs.)</strong><i style="float: right;" class="fas fa-wallet"></i></label> <br>
+                                        Note: Your bid should be of a higher value than the value shown in (Highest Bid yet) container. Also you can Bid as many times as you want for a product.
+                                        <% if (product.addedby == currentUser.name) { %> 
+                                            <input type="number" name="highestbid" placeholder="Enter your Bid here" min="<%= product.highestbid %>" disabled>
+                                            <button type="button" class="buttonAnchorDisabled">Bid</button>
+                                            (You can't Bid on your own product)
+                                        <% } else { %>
+                                            <input type="number" name="highestbid" placeholder="Enter your Bid here" min="<%= product.highestbid %>" required>
+                                            <button class="buttonAnchor">Bid</button>
+                                        <% } %>
+                                    </form>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <% if (product.addedby == currentUser.name) { %> 
+                            <div class="usersDiv">
+                                <strong>All bids are shown here:</strong> <br>
+                                Note: Only the product owner can see this(you)
+                                <ul>
+                                    <% for(let i=usersBidData.length - 1; i >= 0; i--) { %>
+                                        <li>
+                                            <a href="/users/profile/<%= usersBidData[i]._id %>"><i class="fas fa-user fa-2x iconLink"></i></a>
+                                            <strong>Name:</strong> <%= usersBidData[i].name %> <br>
+                                            <strong>Email:</strong> <%= usersBidData[i].email %> <br>
+                                            <strong>Age:</strong> <%= usersBidData[i].age %> <br>
+                                            <strong>Bid at:</strong> Rs. <%= product.usersBidPrice[i] %> <br>
+                                        </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        <% } %>
+                        <% if (product.bidActive == true) { %>
+                            <% if (product.addedby == currentUser.name) { %>
+                                <a href="/products/bid/end/<%= product._id %>/<%= currentUser._id %>" style="background-color: rgba(255, 0, 0, 0.726);" class="buttonAnchor">End Bidding</a>
+                                <a href="/products/delete/<%= product._id %>/<%= currentUser._id %>" style="background-color: rgba(255, 0, 0, 0.726);" class="buttonAnchor">Delete Your Product</a>
+                            <% } %>
+                        <% } else { %>
+                            <a style="background-color: rgba(250, 36, 36, 0.726);" class="buttonAnchorDisabled">Bidding has Ended</a>
+                            <% if (product.addedby == currentUser.name) { %>
+                                <a href="/products/delete/<%= product._id %>/<%= currentUser._id %>" style="background-color: rgba(255, 0, 0, 0.726);" class="buttonAnchor">Delete Your Product</a>
+                            <% } %>
+                        <% } %>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/public/js/sidenav.js"></script>
+</body>
+</html>

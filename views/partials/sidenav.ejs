@@ -1,0 +1,18 @@
+<div class="sidebar">
+    <div id="profile">
+        <div>
+            <img src="/public/img/avatar.png" class="symbolName">
+            <div id="username"> <%= currentUser.name %></div>
+            <div id="usernameIcon"><i class="fas fa-user fa-2x"></i></div>
+            <div id="profileLink"><a href="/users/profile/<%= currentUser._id %>"><i class="fas fa-user"></i><span class="symbolName">Visit Profile</span></a></div>
+        </div>
+    </div>
+    <ul>
+        <li><a href="/dashboard/<%= currentUser._id %>"><i class="fas fa-home"></i><span class="symbolName">Dashboard</span></a></li>
+        <li><a href="/notifications/<%= currentUser._id %>"><i class="fas fa-bell"></i><span class="symbolName">Notifications</span> <span id="countBell"><%= currentUser.notifications.length %></span></a></li>
+        <li><a href="/products/add/<%= currentUser._id %>"><i class="fas fa-cart-plus"></i><span class="symbolName">Add Your Product</span></a></li>
+        <li><a href="/products/<%= currentUser._id %>"><i class="fas fa-shopping-cart"></i><span class="symbolName">Your Products</span></a></li>
+        <li><a href="/users"><i class="fas fa-users-cog"></i><span class="symbolName">All Users</span></a></li>
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i><span class="symbolName">Logout</span></a></li>
+    </ul>
+</div>
